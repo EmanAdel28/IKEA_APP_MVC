@@ -1,3 +1,8 @@
+using IKEA.BLL.Services.DepartmentServices;
+using IKEA.DAL.Persistancs.Data;
+using IKEA.DAL.Persistancs.Repository.Departments;
+using Microsoft.EntityFrameworkCore;
+
 namespace IKEA.PL
 {
     public class Program
@@ -8,6 +13,11 @@ namespace IKEA.PL
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+
+            builder.Services.AddDbContext<ApplicationDbContext>(options =>
+            options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+            builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
+            builder.Services.AddScoped<IDepartmentServices, DepaertmentServices>();
 
             var app = builder.Build();
 
