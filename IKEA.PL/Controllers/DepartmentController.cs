@@ -2,6 +2,7 @@
 using IKEA.BLL.Services.DepartmentServices;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.DotNet.Scaffolding.Shared.Messaging;
+using NuGet.Protocol.Plugins;
 
 namespace IKEA.PL.Controllers
 {
@@ -71,6 +72,60 @@ namespace IKEA.PL.Controllers
                 return NotFound();
 
             return View(department);
+        }
+
+        [HttpGet]
+        public IActionResult Edit (int? id)
+        {
+
+            if (id is null)
+                return BadRequest();
+            var department = departmentServices.GetDepartmentById(id.Value);
+
+            if (department is null)
+                return NotFound();
+
+            var MappedDepartment = new UpdatedDepartmentDto()
+            {
+                Id = department.Id,
+                Name = department.Name,
+                Code = department.Code,
+                Description = department.Description,
+                CreationDate = department.CreationDate,
+            };
+            return View(MappedDepartment);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(UpdatedDepartmentDto departmentDto)
+        {
+            if (!ModelState.IsValid)
+                return View(departmentDto);
+            var  message = string.Empty;
+            try
+            {
+                var Result = departmentServices.UpdateDepartment(departmentDto);
+                if (Result > 0)
+                    return RedirectToAction(nameof(Index));
+                else
+                    message = "Department is Not Update";
+
+            }
+            catch (Exception ex)
+            {
+                // Log the exception using Kestrel logging
+                logger.LogError(ex, ex.Message);
+
+                // Set default error message
+                 message = environment.IsDevelopment() ? ex.Message : "An error occurred during the creation process.";
+
+             
+            }
+            ModelState.AddModelError(string.Empty, message);
+            return View(departmentDto);
+
+
+
         }
 
     }
