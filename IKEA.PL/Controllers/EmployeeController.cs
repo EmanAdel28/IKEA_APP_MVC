@@ -42,8 +42,46 @@ namespace IKEA.PL.Controllers
             return View(department);
         }
         #endregion
+        #region Create
+        [HttpGet]
+        public IActionResult Create()
+        {
 
-       
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Create(CreatedEmployeeDto employeeDto)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                    return View(employeeDto);
+
+                var result = employeeServices.CreateEmployee(employeeDto);
+
+                if (result > 0)
+                    return RedirectToAction(nameof(Index));
+
+                ModelState.AddModelError(string.Empty, "Employee is not created");
+                return View(employeeDto);
+            }
+            catch (Exception ex)
+            {
+                // Log the exception using Kestrel logging
+                logger.LogError(ex, ex.Message);
+
+                // Set default error message
+                var message = environment.IsDevelopment() ? ex.Message : "An error occurred during the creation process.";
+
+                ModelState.AddModelError(string.Empty, message);
+                return View(employeeDto);
+            }
+
+        }
+
+        #endregion
+
 
     }
 }
