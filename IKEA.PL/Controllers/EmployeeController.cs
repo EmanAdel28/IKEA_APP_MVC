@@ -29,7 +29,21 @@ namespace IKEA.PL.Controllers
             return View(employees);
         }
         #endregion
+        #region Details
+        public IActionResult Details(int? id)
+        {
+            if (id is null)
+                return BadRequest();
+            var department = employeeServices.GetEmployeeById(id.Value);
+
+            if (department is null)
+                return NotFound();
+
+            return View(department);
+        }
+        #endregion
 
        
+
     }
 }
