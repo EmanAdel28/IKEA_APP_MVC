@@ -1,4 +1,6 @@
-﻿using IKEA.BLL.Services.DepartmentServices;
+﻿using IKEA.BLL.DTO_s;
+using IKEA.BLL.DTO_s.Employee;
+using IKEA.BLL.Services.DepartmentServices;
 using IKEA.BLL.Services.EmployeeServices;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,9 +20,16 @@ namespace IKEA.PL.Controllers
             this.environment = environment;
         }
         #endregion
+
+        #region Index
+        [HttpGet]
         public IActionResult Index()
         {
-            return View();
+            var employees = employeeServices.GetAllEmployees();
+            return View(employees);
         }
+        #endregion
+
+       
     }
 }
