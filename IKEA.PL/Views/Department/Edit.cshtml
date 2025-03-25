@@ -8,7 +8,7 @@
 
 <div class="row justify-content-center align-content-center flex-column">
     <h1 class="col-6 my-4">Edit Department : @Model.Name</h1>
-    <form asp-action="Create" method="post" class="col-6">
+    <form asp-action="Edit" method="post" class="col-6">
 
         <div class="form-group">
             <label class="form-label" asp-for="Code"></label>
@@ -35,7 +35,7 @@
         </div>
 
         <div class="mt-4">
-            <input type="submit" value="Update" class="btn btn-primary" />
+            <input type="submit" value="Edit" class="btn btn-primary" />
             <a asp-action="Index" class="btn btn-secondary">Back To List</a>
         </div>
 

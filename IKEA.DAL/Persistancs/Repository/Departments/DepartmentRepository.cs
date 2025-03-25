@@ -38,7 +38,7 @@ namespace IKEA.DAL.Persistancs.Repository.Departments
 
             public IEnumerable<Department> GetGetAll()
             {
-                return dbContext.Departments.ToList();
+                return dbContext.Departments.Where(D=>D.IsDeleted==false).ToList();
             }
 
             public int Update(Department department)
