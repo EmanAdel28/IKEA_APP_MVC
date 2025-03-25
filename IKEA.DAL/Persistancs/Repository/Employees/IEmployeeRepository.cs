@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using IKEA.DAL.Models.Departments;
+using IKEA.DAL.Models.Employees;
 using IKEA.DAL.Persistancs.Repository.GenericRepository;
 
-namespace IKEA.DAL.Persistancs.Repository.Departments
+namespace IKEA.DAL.Persistancs.Repository.Employees
 {
-    public interface IDepartmentRepository:IGenericRepository<Department>
+    public interface IEmployeeRepository:IGenericRepository<Employee>
     {
-      
+       
     }
 }

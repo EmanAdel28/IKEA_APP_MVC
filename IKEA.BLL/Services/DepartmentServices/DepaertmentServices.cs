@@ -20,7 +20,7 @@ namespace IKEA.BLL.Services.DepartmentServices
 
         public IEnumerable<DepartmentDto> GetAllDepartments()
         {
-            var Department = DepartmentRepository.GetGetAll();
+            var Department = DepartmentRepository.GetAll();
             List<DepartmentDto> departmentDtos = new List<DepartmentDto>();
             foreach (var dept in Department)
             {

@@ -1,6 +1,8 @@
 using IKEA.BLL.Services.DepartmentServices;
+using IKEA.BLL.Services.EmployeeServices;
 using IKEA.DAL.Persistancs.Data;
 using IKEA.DAL.Persistancs.Repository.Departments;
+using IKEA.DAL.Persistancs.Repository.Employees;
 using Microsoft.EntityFrameworkCore;
 
 namespace IKEA.PL
@@ -18,6 +20,9 @@ namespace IKEA.PL
             options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
             builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
             builder.Services.AddScoped<IDepartmentServices, DepaertmentServices>();
+            builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+            builder.Services.AddScoped<IEmployeeServices, EmployeeServices>();
+
 
             var app = builder.Build();
 
