@@ -10,7 +10,7 @@ namespace IKEA.DAL.Persistancs.Repository.GenericRepository
 {
     public interface IGenericRepository<T> where T : ModelBase
     {
-        IEnumerable<T> GetAll();
+        IQueryable<T> GetAll();
 
         T? GetById(int id);
 

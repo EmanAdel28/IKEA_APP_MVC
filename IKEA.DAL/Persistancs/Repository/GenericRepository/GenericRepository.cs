@@ -38,9 +38,9 @@ namespace IKEA.DAL.Persistancs.Repository.GenericRepository
             return item;
         }
 
-        public IEnumerable<T> GetAll()
+        public IQueryable<T> GetAll()
         {
-            return dbContext.Set<T>().Where(D => D.IsDeleted == false).ToList();
+            return dbContext.Set<T>();
         }
 
         public int Update(T item)

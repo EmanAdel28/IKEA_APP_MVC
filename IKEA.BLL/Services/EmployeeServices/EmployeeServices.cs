@@ -21,39 +21,24 @@ namespace IKEA.BLL.Services.EmployeeServices
         }
         public IEnumerable<EmployeeDto> GetAllEmployees()
         {
-            //return EmployeeRepository.GetAll().Select(E => new EmployeeDto()
-            //{
-            //    Id = E.Id,
-            //    Name = E.Name,
-            //    Address = E.Address,
-            //    Age = E.Age,
-            //    Salary = E.Salary,
-            //    IsActive = E.IsActive,
-            //    Email = E.Email,
-            //    Gender = E.Gender,
-            //    EmployeeType = E.EmployeeType
-
-            //}).ToList();
-
+           
             var Employee = EmployeeRepository.GetAll();
+            var FilterEmployee = Employee.Where(D => D.IsDeleted == false);
             List<EmployeeDto> employeeDtos = new List<EmployeeDto>();
-            foreach (var emp in Employee)
+          
+            var AfterFilterEmployee = FilterEmployee.Select(E => new EmployeeDto()
             {
-                EmployeeDto empDto = new EmployeeDto()
-                {
-                    Id = emp.Id,
-                    Name = emp.Name,
-                    Address = emp.Address,
-                    Age = emp.Age,
-                    Salary = emp.Salary,
-                    IsActive = emp.IsActive,
-                    Email = emp.Email,
-                    Gender = emp.Gender,
-                    EmployeeType = emp.EmployeeType
-                };
-                employeeDtos.Add(empDto);
-            }
-            return employeeDtos;
+                Id = E.Id,
+                Name = E.Name,
+                Address = E.Address,
+                Age = E.Age,
+                Salary = E.Salary,
+                IsActive = E.IsActive,
+                Email = E.Email,
+                Gender = E.Gender,
+                EmployeeType = E.EmployeeType
+            });
+            return AfterFilterEmployee.ToList();
         }
          public  EmployeeDetailsDto? GetEmployeeById(int id)
         {

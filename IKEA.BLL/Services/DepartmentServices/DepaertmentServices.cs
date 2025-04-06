@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using IKEA.BLL.DTO_s;
+using IKEA.BLL.DTO_s.Employee;
 using IKEA.DAL.Models.Departments;
 using IKEA.DAL.Persistancs.Repository.Departments;
 
@@ -21,19 +22,22 @@ namespace IKEA.BLL.Services.DepartmentServices
         public IEnumerable<DepartmentDto> GetAllDepartments()
         {
             var Department = DepartmentRepository.GetAll();
+            var FilterDepartment = Department.Where(D => D.IsDeleted == false);
             List<DepartmentDto> departmentDtos = new List<DepartmentDto>();
-            foreach (var dept in Department)
-            {
-                DepartmentDto deptDto = new DepartmentDto()
+           
+                var AfterFilterDepartmebt = FilterDepartment.Select(dept => new DepartmentDto()
                 {
                     Id = dept.Id,
                     Name = dept.Name,
                     Code = dept.Code,
                     CreationDate = dept.CreationDate,
-                };
-                departmentDtos.Add(deptDto);
-            }
-            return departmentDtos;
+
+                }
+                );
+
+            
+            return AfterFilterDepartmebt.ToList();
+
         }
 
         public DepartmentDetailsDto? GetDepartmentById(int id)
