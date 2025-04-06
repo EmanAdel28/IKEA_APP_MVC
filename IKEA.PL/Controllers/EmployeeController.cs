@@ -29,19 +29,7 @@ namespace IKEA.PL.Controllers
             return View(employees);
         }
         #endregion
-        #region Details
-        public IActionResult Details(int? id)
-        {
-            if (id is null)
-                return BadRequest();
-            var department = employeeServices.GetEmployeeById(id.Value);
 
-            if (department is null)
-                return NotFound();
-
-            return View(department);
-        }
-        #endregion
         #region Create
         [HttpGet]
         public IActionResult Create()
@@ -81,6 +69,123 @@ namespace IKEA.PL.Controllers
         }
 
         #endregion
+
+        #region Details
+        public IActionResult Details(int? id)
+        {
+            if (id is null)
+                return BadRequest();
+            var department = employeeServices.GetEmployeeById(id.Value);
+
+            if (department is null)
+                return NotFound();
+
+            return View(department);
+        }
+        #endregion
+
+        #region Edit
+
+        [HttpGet]
+        public IActionResult Edit(int? id)
+        {
+
+            if (id is null)
+                return BadRequest();
+            var employee = employeeServices.GetEmployeeById(id.Value);
+
+            if (employee is null)
+                return NotFound();
+
+            var MappedEmployee = new UpdatedEmployeeDto()
+            {
+                Id = employee.Id,
+                Name = employee.Name,
+                Address = employee.Address,
+                Age = employee.Age,
+                IsActive = employee.IsActive,
+                Email = employee.Email,
+                Gender = employee.Gender,
+                EmployeeType = employee.EmployeeType
+            };
+            return View(MappedEmployee);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(UpdatedEmployeeDto employeeDto)
+        {
+            if (!ModelState.IsValid)
+                return View(employeeDto);
+            var message = string.Empty;
+            try
+            {
+                var Result = employeeServices.UpdateEmployee(employeeDto);
+                if (Result > 0)
+                    return RedirectToAction(nameof(Index));
+                else
+                    message = "Department is Not Update";
+
+            }
+            catch (Exception ex)
+            {
+                // Log the exception using Kestrel logging
+                logger.LogError(ex, ex.Message);
+
+                // Set default error message
+                message = environment.IsDevelopment() ? ex.Message : "An error occurred during the creation process.";
+
+
+            }
+            ModelState.AddModelError(string.Empty, message);
+            return View(employeeDto);
+
+
+
+        }
+        #endregion
+
+        #region Delete
+        [HttpGet]
+        public IActionResult Delete(int? empId)
+        {
+            if (empId is null)
+                return BadRequest();
+
+            var Employee = employeeServices.GetEmployeeById(empId.Value);
+
+            if (Employee is null)
+                return NotFound();
+
+            return View(Employee);
+        }
+
+        [HttpPost]
+        public IActionResult Delete(int empId)
+        {
+            var Message = string.Empty;
+            try
+            {
+                var IsDeleted = employeeServices.DeleteEmployee(empId);
+                if (IsDeleted)
+                    return RedirectToAction(nameof(Index));
+
+                Message = "Employee is Not Deleted";
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, ex.Message);
+
+                Message = environment.IsDevelopment() ? ex.Message : "An Error has been ocurred during delete the employee";
+            }
+            ModelState.AddModelError(string.Empty, Message);
+            return RedirectToAction(nameof(Delete), new { id = empId });
+
+
+        }
+
+        #endregion
+
+
 
 
     }

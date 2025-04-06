@@ -92,6 +92,7 @@ namespace IKEA.BLL.Services.DepartmentServices
         public bool DeleteDepartment(int id)
         {
             var department = DepartmentRepository.GetById(id);
+           
             if (department != null)
                 return DepartmentRepository.Delete(department) > 0;
 

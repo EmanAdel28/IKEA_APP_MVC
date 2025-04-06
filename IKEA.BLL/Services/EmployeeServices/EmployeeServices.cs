@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using IKEA.BLL.DTO_s;
 using IKEA.BLL.DTO_s.Employee;
 using IKEA.DAL.Models.Employees;
 using IKEA.DAL.Persistancs.Repository.Departments;
@@ -20,19 +21,39 @@ namespace IKEA.BLL.Services.EmployeeServices
         }
         public IEnumerable<EmployeeDto> GetAllEmployees()
         {
-            return EmployeeRepository.GetAll().Where(E => E.IsDeleted = false).Select(E => new EmployeeDto()
-            {
-                Id = E.Id,
-                Name = E.Name,
-                Address = E.Address,
-                Age = E.Age,
-                Salary = E.Salary,
-                IsActive = E.IsActive,
-                Email = E.Email,
-                Gender = E.Gender,
-                EmployeeType = E.EmployeeType
+            //return EmployeeRepository.GetAll().Select(E => new EmployeeDto()
+            //{
+            //    Id = E.Id,
+            //    Name = E.Name,
+            //    Address = E.Address,
+            //    Age = E.Age,
+            //    Salary = E.Salary,
+            //    IsActive = E.IsActive,
+            //    Email = E.Email,
+            //    Gender = E.Gender,
+            //    EmployeeType = E.EmployeeType
 
-            }).ToList();
+            //}).ToList();
+
+            var Employee = EmployeeRepository.GetAll();
+            List<EmployeeDto> employeeDtos = new List<EmployeeDto>();
+            foreach (var emp in Employee)
+            {
+                EmployeeDto empDto = new EmployeeDto()
+                {
+                    Id = emp.Id,
+                    Name = emp.Name,
+                    Address = emp.Address,
+                    Age = emp.Age,
+                    Salary = emp.Salary,
+                    IsActive = emp.IsActive,
+                    Email = emp.Email,
+                    Gender = emp.Gender,
+                    EmployeeType = emp.EmployeeType
+                };
+                employeeDtos.Add(empDto);
+            }
+            return employeeDtos;
         }
          public  EmployeeDetailsDto? GetEmployeeById(int id)
         {

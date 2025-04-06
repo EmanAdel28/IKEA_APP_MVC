@@ -25,8 +25,10 @@ namespace IKEA.DAL.Persistancs.Repository.GenericRepository
         }
 
         public int Delete(T item)
-        {
-            dbContext.Set<T>().Remove(item);
+        { 
+           item.IsDeleted = true;
+            dbContext.Set<T>().Update(item);
+           
             return dbContext.SaveChanges();
         }
 
