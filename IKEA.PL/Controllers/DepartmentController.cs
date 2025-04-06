@@ -53,6 +53,8 @@ namespace IKEA.PL.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
+
         public IActionResult Create(CreatedDepartmentDto departmentDto)
         {
             try
@@ -109,6 +111,8 @@ namespace IKEA.PL.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
+
         public IActionResult Edit(UpdatedDepartmentDto departmentDto)
         {
             if (!ModelState.IsValid)
@@ -157,6 +161,8 @@ namespace IKEA.PL.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
+
         public IActionResult Delete(int DeptId)
         {
             var Message = string.Empty;
