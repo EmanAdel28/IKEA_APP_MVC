@@ -51,8 +51,7 @@ namespace IKEA.PL.Controllers
                 if (result > 0)
                     return RedirectToAction(nameof(Index));
 
-                ModelState.AddModelError(string.Empty, "Employee is not created");
-                return View(employeeDto);
+
             }
             catch (Exception ex)
             {
@@ -62,9 +61,11 @@ namespace IKEA.PL.Controllers
                 // Set default error message
                 var message = environment.IsDevelopment() ? ex.Message : "An error occurred during the creation process.";
 
-                ModelState.AddModelError(string.Empty, message);
-                return View(employeeDto);
             }
+            ModelState.AddModelError(string.Empty, "Employee is not created");
+            return View(employeeDto);
+
+    
 
         }
 

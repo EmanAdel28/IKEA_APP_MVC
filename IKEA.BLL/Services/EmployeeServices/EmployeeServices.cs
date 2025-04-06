@@ -24,7 +24,6 @@ namespace IKEA.BLL.Services.EmployeeServices
            
             var Employee = EmployeeRepository.GetAll();
             var FilterEmployee = Employee.Where(D => D.IsDeleted == false);
-            List<EmployeeDto> employeeDtos = new List<EmployeeDto>();
           
             var AfterFilterEmployee = FilterEmployee.Select(E => new EmployeeDto()
             {

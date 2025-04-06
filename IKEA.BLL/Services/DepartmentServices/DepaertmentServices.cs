@@ -23,7 +23,7 @@ namespace IKEA.BLL.Services.DepartmentServices
         {
             var Department = DepartmentRepository.GetAll();
             var FilterDepartment = Department.Where(D => D.IsDeleted == false);
-            List<DepartmentDto> departmentDtos = new List<DepartmentDto>();
+           
            
                 var AfterFilterDepartmebt = FilterDepartment.Select(dept => new DepartmentDto()
                 {
