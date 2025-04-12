@@ -1,8 +1,9 @@
-﻿@using IKEA.BLL.DTO_s
-@using IKEA.DAL.Models.Common
+﻿
+@inject IDepartmentServices departmenServices
 @model UpdatedEmployeeDto
 @{
     ViewData["Title"] = "Edit Employee";
+    var Department = new SelectList(departmenServices.GetAllDepartments(), nameof(DepartmentDto.Id), nameof(DepartmentDto.Name));
 }
 
 
@@ -45,6 +46,12 @@
             <label class="form-label" asp-for="EmployeeType"></label>
             <select asp-for="EmployeeType" asp-items="Html.GetEnumSelectList<EmployeeType>()" class="form-control">
                 <option value="">Choose...</option>
+            </select>
+        </div>
+        <div class="form-group  col-6">
+            <label class="form-label" asp-for="DepartmentId"></label>
+            <select asp-for="DepartmentId" asp-items="@Department" class="form-control">
+                <option value="@null">Choose...</option>
             </select>
         </div>
         <div class="form-group  col-6">

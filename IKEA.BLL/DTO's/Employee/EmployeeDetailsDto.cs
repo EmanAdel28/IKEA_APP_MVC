@@ -20,6 +20,7 @@ namespace IKEA.BLL.DTO_s.Employee
         public DateOnly HiringDate { get; set; }
         public Gender Gender { get; set; }
         public EmployeeType EmployeeType { get; set; }
+        public string? Departments { get; set; }
 
         //Adminstration 
         public int CreateBy { get; set; }

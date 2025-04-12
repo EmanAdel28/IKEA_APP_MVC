@@ -8,6 +8,7 @@ using IKEA.BLL.DTO_s.Employee;
 using IKEA.DAL.Models.Employees;
 using IKEA.DAL.Persistancs.Repository.Departments;
 using IKEA.DAL.Persistancs.Repository.Employees;
+using Microsoft.EntityFrameworkCore;
 
 namespace IKEA.BLL.Services.EmployeeServices
 {
@@ -23,7 +24,7 @@ namespace IKEA.BLL.Services.EmployeeServices
         {
            
             var Employee = EmployeeRepository.GetAll();
-            var FilterEmployee = Employee.Where(D => D.IsDeleted == false);
+            var FilterEmployee = Employee.Where(D => D.IsDeleted == false).Include(E=>E.Department);
           
             var AfterFilterEmployee = FilterEmployee.Select(E => new EmployeeDto()
             {
@@ -35,7 +36,8 @@ namespace IKEA.BLL.Services.EmployeeServices
                 IsActive = E.IsActive,
                 Email = E.Email,
                 Gender = E.Gender,
-                EmployeeType = E.EmployeeType
+                EmployeeType = E.EmployeeType,
+                Department = E.Department.Name ?? "N/A"
             });
             return AfterFilterEmployee.ToList();
         }
@@ -61,8 +63,9 @@ namespace IKEA.BLL.Services.EmployeeServices
                     LastModifiedOn = employee.LastModifiedOn,
                     CreateBy = employee.CreateBy,
                     CreatedOn = employee.CreatedOn,
+                    Departments = employee.Department?.Name
 
-                    
+
 
                 };
 
@@ -86,6 +89,7 @@ namespace IKEA.BLL.Services.EmployeeServices
                 EmployeeType = employee.EmployeeType,
                 PhoneNumber = employee.PhoneNumber,
                 HiringDate = employee.HiringDate,
+                DepartmentId = employee.DepartmentId,
                 LastModifiedBy = 1,
                 LastModifiedOn = DateTime.Now,
                 CreateBy = 1,
@@ -109,6 +113,7 @@ namespace IKEA.BLL.Services.EmployeeServices
                 EmployeeType = employee.EmployeeType,
                 PhoneNumber = employee.PhoneNumber,
                 HiringDate = employee.HiringDate,
+                DepartmentId = employee.DepartmentId,
                 LastModifiedBy = 1,
                 LastModifiedOn = DateTime.Now,
             };
