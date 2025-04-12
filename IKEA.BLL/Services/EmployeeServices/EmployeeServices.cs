@@ -20,13 +20,36 @@ namespace IKEA.BLL.Services.EmployeeServices
         {
             EmployeeRepository = _employeeRepository;
         }
-        public IEnumerable<EmployeeDto> GetAllEmployees()
+        //public IEnumerable<EmployeeDto> GetAllEmployees(string search)
+        //{
+
+        //    var Employee = EmployeeRepository.GetAll();
+        //    var FilterEmployee = Employee.Include(E => E.Department).Where(D => !D.IsDeleted && (string.IsNullOrEmpty(search) || D.Name.ToLower().Contains(search.ToLower())));
+
+        //    var AfterFilterEmployee = FilterEmployee.Select(E => new EmployeeDto()
+        //    {
+        //        Id = E.Id,
+        //        Name = E.Name,
+        //        Address = E.Address,
+        //        Age = E.Age,
+        //        Salary = E.Salary,
+        //        IsActive = E.IsActive,
+        //        Email = E.Email,
+        //        Gender = E.Gender,
+        //        EmployeeType = E.EmployeeType,
+        //        Department = E.Department.Name ?? "N/A"
+        //    });
+        //    return AfterFilterEmployee.ToList();
+        //}
+        public IEnumerable<EmployeeDto> GetAllEmployees(string search)
         {
-           
-            var Employee = EmployeeRepository.GetAll();
-            var FilterEmployee = Employee.Where(D => D.IsDeleted == false).Include(E=>E.Department);
-          
-            var AfterFilterEmployee = FilterEmployee.Select(E => new EmployeeDto()
+            var employees = EmployeeRepository.GetAll().Include(e => e.Department);
+
+            var filteredEmployees = employees
+                .Where(e => !e.IsDeleted &&
+                           (string.IsNullOrEmpty(search)|| e.Name.ToLower().Contains(search.ToLower())));
+
+            var employeeDtos = filteredEmployees.Select(E => new EmployeeDto()
             {
                 Id = E.Id,
                 Name = E.Name,
@@ -39,9 +62,11 @@ namespace IKEA.BLL.Services.EmployeeServices
                 EmployeeType = E.EmployeeType,
                 Department = E.Department.Name ?? "N/A"
             });
-            return AfterFilterEmployee.ToList();
+
+            return employeeDtos.ToList();
         }
-         public  EmployeeDetailsDto? GetEmployeeById(int id)
+
+        public EmployeeDetailsDto? GetEmployeeById(int id)
         {
            var employee = EmployeeRepository.GetById(id);
             if(employee is not null)

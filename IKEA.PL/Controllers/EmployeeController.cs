@@ -23,9 +23,9 @@ namespace IKEA.PL.Controllers
 
         #region Index
         [HttpGet]
-        public IActionResult Index()
+        public IActionResult Index(string Search)
         {
-            var employees = employeeServices.GetAllEmployees();
+            var employees = employeeServices.GetAllEmployees(Search);
             return View(employees);
         }
         #endregion

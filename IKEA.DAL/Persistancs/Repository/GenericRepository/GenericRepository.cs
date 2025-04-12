@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using IKEA.DAL.Models;
 using IKEA.DAL.Models.Departments;
 using IKEA.DAL.Persistancs.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace IKEA.DAL.Persistancs.Repository.GenericRepository
 {
@@ -41,6 +42,7 @@ namespace IKEA.DAL.Persistancs.Repository.GenericRepository
         public IQueryable<T> GetAll()
         {
             return dbContext.Set<T>();
+            ;
         }
 
         public int Update(T item)
