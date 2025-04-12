@@ -75,21 +75,8 @@
                     <td>@Html.DisplayFor(e => emp.IsActive)</td>
                     <td>@Html.DisplayFor(e => emp.Gender)</td>
                     <td>@Html.DisplayFor(e => emp.Department)</td>
-                    <td>
-                        <a asp-action="Details" asp-route-id="@emp.Id" class="btn btn-warning">Details</a>
-                    </td>
-                    <td>
-                        <a asp-action="Edit" asp-route-id="@emp.Id" class="btn btn-success">Update</a>
-                    </td>
-                   
-                    <td>
-                        <a asp-action="Delete" asp-route-EmpId="@emp.Id" class="btn btn-danger"> Delete</a>
-                    </td>
-                        @* <!-- Button to trigger modal (must match modal ID) --> *@
-                        @* <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#DeleteDepartment_@dept.Id"> *@
-                        @*     Delete *@
-                        @* </button> *@
-                    
+
+                    <partial name="_ButtonPartial" model="emp.Id" />
                 </tr>
             }
         </tbody>

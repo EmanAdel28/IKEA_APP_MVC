@@ -53,21 +53,7 @@
                     <td>@dept.Code</td>
                     <td>@dept.Name</td>
                     <td>@dept.CreationDate</td>
-                    <td>
-                        <a asp-action="Details" asp-route-id="@dept.Id" class="btn btn-warning">Details</a>
-                    </td>
-                    <td>
-                        <a asp-action="Edit" asp-route-id="@dept.Id" class="btn btn-success">Update</a>
-                    </td>
-                    <td>
-                        <td>
-                           <a asp-action="Delete" asp-route-DeptId="@dept.Id" class="btn btn-danger"> Delete</a> 
-                        </td> 
-                        @* <!-- Button to trigger modal (must match modal ID) --> *@
-                        @* <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#DeleteDepartment_@dept.Id"> *@
-                        @*     Delete *@
-                        @* </button> *@
-                    </td>
+                    <partial name="_ButtonPartial" model="dept.Id" />
                 </tr>
             }
         </tbody>

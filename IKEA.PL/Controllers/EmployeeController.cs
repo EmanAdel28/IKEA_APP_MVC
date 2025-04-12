@@ -151,12 +151,12 @@ namespace IKEA.PL.Controllers
 
         #region Delete
         [HttpGet]
-        public IActionResult Delete(int? empId)
+        public IActionResult Delete(int? itemId)
         {
-            if (empId is null)
+            if (itemId is null)
                 return BadRequest();
 
-            var Employee = employeeServices.GetEmployeeById(empId.Value);
+            var Employee = employeeServices.GetEmployeeById(itemId.Value);
 
             if (Employee is null)
                 return NotFound();
@@ -167,12 +167,12 @@ namespace IKEA.PL.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
 
-        public IActionResult Delete(int empId)
+        public IActionResult Delete(int itemId)
         {
             var Message = string.Empty;
             try
             {
-                var IsDeleted = employeeServices.DeleteEmployee(empId);
+                var IsDeleted = employeeServices.DeleteEmployee(itemId);
                 if (IsDeleted)
                     return RedirectToAction(nameof(Index));
 
@@ -185,7 +185,7 @@ namespace IKEA.PL.Controllers
                 Message = environment.IsDevelopment() ? ex.Message : "An Error has been ocurred during delete the employee";
             }
             ModelState.AddModelError(string.Empty, Message);
-            return RedirectToAction(nameof(Delete), new { id = empId });
+            return RedirectToAction(nameof(Delete), new { id = itemId });
 
 
         }
