@@ -27,6 +27,12 @@ namespace IKEA.DAL.Persistancs.Data.Configurations.EmployeeConfigurations
                  (type) => (EmployeeType)Enum.Parse(typeof(EmployeeType), type)
                  );
 
+            builder.HasOne(D=>D.Department)
+                   .WithMany(D => D.Employees)
+                   .HasForeignKey(E=>E.DepartmentId)
+                   .OnDelete(DeleteBehavior.SetNull);
+                   
+
 
             //Development Usage
             builder.Property(D => D.CreatedOn).HasDefaultValueSql("GetDate()");

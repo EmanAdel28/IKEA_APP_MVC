@@ -25,7 +25,13 @@ namespace IKEA.PL.Controllers
         [HttpGet]
         public IActionResult Index()
         {
+         //string name= ViewData["name"] as string;
+         //   name = "eman";
+         //       ViewData["Department"] = departmentServices.GetAllDepartments() ;
+         
+
             var Department = departmentServices.GetAllDepartments();
+
             return View(Department);
         }
         #endregion

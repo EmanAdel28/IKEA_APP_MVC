@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using IKEA.DAL.Models.Common;
+using IKEA.DAL.Models.Departments;
 
 namespace IKEA.DAL.Models.Employees
 {
@@ -19,5 +21,9 @@ namespace IKEA.DAL.Models.Employees
         public DateOnly HiringDate { get; set; }
         public Gender Gender { get; set; }
         public EmployeeType EmployeeType { get; set; }
+        
+        public int? DepartmentId { get; set; }
+        public virtual Department? Department { get; set; }
+
     }
 }
