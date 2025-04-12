@@ -2,6 +2,8 @@
 using IKEA.BLL.DTO_s.Employee;
 using IKEA.BLL.Services.DepartmentServices;
 using IKEA.BLL.Services.EmployeeServices;
+using IKEA.DAL.Models.Employees;
+using IKEA.PL.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IKEA.PL.Controllers
@@ -41,13 +43,24 @@ namespace IKEA.PL.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
 
-        public IActionResult Create(CreatedEmployeeDto employeeDto)
+        public IActionResult Create(EmployeeVM employeeVM)
         {
             try
             {
                 if (!ModelState.IsValid)
-                    return View(employeeDto);
+                    return View(employeeVM);
 
+                var employeeDto = new CreatedEmployeeDto()
+                {
+                    Name = employeeVM.Name,
+                    Address = employeeVM.Address,
+                    Age = employeeVM.Age,
+                    IsActive = employeeVM.IsActive,
+                    Email = employeeVM.Email,
+                    Gender = employeeVM.Gender,
+                    EmployeeType = employeeVM.EmployeeType
+
+                };
                 var result = employeeServices.CreateEmployee(employeeDto);
 
                 if (result > 0)
@@ -65,7 +78,7 @@ namespace IKEA.PL.Controllers
 
             }
             ModelState.AddModelError(string.Empty, "Employee is not created");
-            return View(employeeDto);
+            return View(employeeVM);
 
     
 
@@ -100,7 +113,7 @@ namespace IKEA.PL.Controllers
             if (employee is null)
                 return NotFound();
 
-            var MappedEmployee = new UpdatedEmployeeDto()
+            var MappedEmployee = new EmployeeVM()
             {
                 Id = employee.Id,
                 Name = employee.Name,
@@ -117,13 +130,24 @@ namespace IKEA.PL.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
 
-        public IActionResult Edit(UpdatedEmployeeDto employeeDto)
+        public IActionResult Edit(EmployeeVM employeeVM)
         {
             if (!ModelState.IsValid)
-                return View(employeeDto);
+                return View(employeeVM);
             var message = string.Empty;
             try
             {
+                var employeeDto = new UpdatedEmployeeDto()
+                {
+                   Id = employeeVM.Id,
+                   Name = employeeVM.Name,
+                   Address = employeeVM.Address,
+                   Age = employeeVM.Age,
+                   IsActive = employeeVM.IsActive,
+                   Email = employeeVM.Email,
+                   Gender = employeeVM.Gender,
+                   EmployeeType = employeeVM.EmployeeType
+                };
                 var Result = employeeServices.UpdateEmployee(employeeDto);
                 if (Result > 0)
                     return RedirectToAction(nameof(Index));
@@ -142,7 +166,7 @@ namespace IKEA.PL.Controllers
 
             }
             ModelState.AddModelError(string.Empty, message);
-            return View(employeeDto);
+            return View(employeeVM);
 
 
 
