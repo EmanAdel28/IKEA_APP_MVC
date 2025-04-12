@@ -8,17 +8,21 @@ using IKEA.BLL.DTO_s.Employee;
 using IKEA.DAL.Models.Employees;
 using IKEA.DAL.Persistancs.Repository.Departments;
 using IKEA.DAL.Persistancs.Repository.Employees;
+using IKEA.DAL.Persistancs.UnitOfWork;
 using Microsoft.EntityFrameworkCore;
 
 namespace IKEA.BLL.Services.EmployeeServices
 {
     public class EmployeeServices : IEmployeeServices
     {
-        private IEmployeeRepository EmployeeRepository;
+        private readonly IUnitOfWork unitOfWork;
 
-        public EmployeeServices(IEmployeeRepository _employeeRepository)
+        
+
+        public EmployeeServices(IUnitOfWork UnitOfWork)
         {
-            EmployeeRepository = _employeeRepository;
+          
+            unitOfWork = UnitOfWork;
         }
         //public IEnumerable<EmployeeDto> GetAllEmployees(string search)
         //{
@@ -43,7 +47,7 @@ namespace IKEA.BLL.Services.EmployeeServices
         //}
         public IEnumerable<EmployeeDto> GetAllEmployees(string search)
         {
-            var employees = EmployeeRepository.GetAll().Include(e => e.Department);
+            var employees = unitOfWork.employeeRepository.GetAll().Include(e => e.Department);
 
             var filteredEmployees = employees
                 .Where(e => !e.IsDeleted &&
@@ -68,7 +72,7 @@ namespace IKEA.BLL.Services.EmployeeServices
 
         public EmployeeDetailsDto? GetEmployeeById(int id)
         {
-           var employee = EmployeeRepository.GetById(id);
+           var employee = unitOfWork.employeeRepository.GetById(id);
             if(employee is not null)
             {
                 return new EmployeeDetailsDto()
@@ -120,7 +124,8 @@ namespace IKEA.BLL.Services.EmployeeServices
                 CreateBy = 1,
                 CreatedOn = DateTime.Now,
             };
-            return EmployeeRepository.Add(Employee);
+             unitOfWork.employeeRepository.Add(Employee);
+            return unitOfWork.Complete();
         }
 
         public  int UpdateEmployee(UpdatedEmployeeDto employee)
@@ -142,13 +147,18 @@ namespace IKEA.BLL.Services.EmployeeServices
                 LastModifiedBy = 1,
                 LastModifiedOn = DateTime.Now,
             };
-            return EmployeeRepository.Update(Employee);
+            unitOfWork.employeeRepository.Update(Employee);
+            return unitOfWork.Complete();
         }
         public  bool DeleteEmployee(int id)
         {
-            var employee = EmployeeRepository.GetById(id);
+            var employee = unitOfWork.employeeRepository.GetById(id);
             if (employee != null)
-                return EmployeeRepository.Delete(employee) > 0;
+                unitOfWork.employeeRepository.Delete(employee) ;
+
+            var result = unitOfWork.Complete();
+            if(result>0)
+                return true;
 
             else return false;
         }

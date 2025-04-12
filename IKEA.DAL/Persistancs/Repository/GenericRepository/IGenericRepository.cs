@@ -14,10 +14,10 @@ namespace IKEA.DAL.Persistancs.Repository.GenericRepository
 
         T? GetById(int id);
 
-        int Add(T department);
+        void Add(T department);
 
-        int Update(T department);
+        void Update(T department);
 
-        int Delete(T department);
+        void Delete(T department);
     }
 }
