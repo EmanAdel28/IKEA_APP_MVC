@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using IKEA.BLL.Common.Services.Attachments;
 using IKEA.BLL.DTO_s;
 using IKEA.BLL.DTO_s.Employee;
 using IKEA.DAL.Models.Employees;
@@ -16,13 +17,13 @@ namespace IKEA.BLL.Services.EmployeeServices
     public class EmployeeServices : IEmployeeServices
     {
         private readonly IUnitOfWork unitOfWork;
+        private readonly IAttachmentServices attachmentServices;
 
-        
-
-        public EmployeeServices(IUnitOfWork UnitOfWork)
+        public EmployeeServices(IUnitOfWork UnitOfWork,IAttachmentServices attachmentServices)
         {
           
             unitOfWork = UnitOfWork;
+            this.attachmentServices = attachmentServices;
         }
         //public IEnumerable<EmployeeDto> GetAllEmployees(string search)
         //{
@@ -92,7 +93,8 @@ namespace IKEA.BLL.Services.EmployeeServices
                     LastModifiedOn = employee.LastModifiedOn,
                     CreateBy = employee.CreateBy,
                     CreatedOn = employee.CreatedOn,
-                    Departments = employee.Department?.Name
+                    Departments = employee.Department?.Name,
+                    ImageName = employee.ImageName,
 
 
 
@@ -124,6 +126,10 @@ namespace IKEA.BLL.Services.EmployeeServices
                 CreateBy = 1,
                 CreatedOn = DateTime.Now,
             };
+            if(employee.Image is not null )
+            {
+                Employee.ImageName = attachmentServices.UploadImage(employee.Image, "images");
+            }
              unitOfWork.employeeRepository.Add(Employee);
             return unitOfWork.Complete();
         }
@@ -146,7 +152,18 @@ namespace IKEA.BLL.Services.EmployeeServices
                 DepartmentId = employee.DepartmentId,
                 LastModifiedBy = 1,
                 LastModifiedOn = DateTime.Now,
+                ImageName = employee.ImageName,
             };
+            if( employee.Image is not null) {
+                if (employee.ImageName != null)
+                {
+                    var FilePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "files", "images", employee.ImageName);
+                    attachmentServices.DeleteImage(FilePath);
+                }
+                Employee.ImageName = attachmentServices.UploadImage(employee.Image, "images");
+            }
+            
+
             unitOfWork.employeeRepository.Update(Employee);
             return unitOfWork.Complete();
         }
@@ -154,7 +171,15 @@ namespace IKEA.BLL.Services.EmployeeServices
         {
             var employee = unitOfWork.employeeRepository.GetById(id);
             if (employee != null)
-                unitOfWork.employeeRepository.Delete(employee) ;
+            {
+                if(employee.ImageName != null)
+                {
+                    var FilePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "files", "images", employee.ImageName);
+                    attachmentServices.DeleteImage(FilePath);
+                }
+                unitOfWork.employeeRepository.Delete(employee);
+
+            }
 
             var result = unitOfWork.Complete();
             if(result>0)

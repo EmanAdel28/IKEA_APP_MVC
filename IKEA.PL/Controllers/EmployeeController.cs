@@ -122,7 +122,8 @@ namespace IKEA.PL.Controllers
                 IsActive = employee.IsActive,
                 Email = employee.Email,
                 Gender = employee.Gender,
-                EmployeeType = employee.EmployeeType
+                EmployeeType = employee.EmployeeType,
+                ImageName = employee.ImageName,
             };
             return View(MappedEmployee);
         }

@@ -1,3 +1,4 @@
+using IKEA.BLL.Common.Services.Attachments;
 using IKEA.BLL.Services.DepartmentServices;
 using IKEA.BLL.Services.EmployeeServices;
 using IKEA.DAL.Persistancs.Data;
@@ -19,11 +20,12 @@ namespace IKEA.PL
 
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
             options.UseLazyLoadingProxies().UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-            builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
-            //builder.Services.AddScoped<IDepartmentServices, DepaertmentServices>();
-            //builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+            //builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
+            builder.Services.AddScoped<IDepartmentServices, DepaertmentServices>();
+            builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
             builder.Services.AddScoped<IEmployeeServices, EmployeeServices>();
+            builder.Services.AddScoped<IAttachmentServices, AttachmentServices>();
 
 
             var app = builder.Build();

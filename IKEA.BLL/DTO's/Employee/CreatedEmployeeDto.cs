@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using IKEA.DAL.Models.Common;
+using Microsoft.AspNetCore.Http;
 
 namespace IKEA.BLL.DTO_s.Employee
 {
@@ -27,5 +28,6 @@ namespace IKEA.BLL.DTO_s.Employee
         public EmployeeType EmployeeType { get; set; }
         [Display(Name = "Department")]
         public int? DepartmentId { get; set; }
+        public IFormFile? Image { get; set; }
     }
 }
