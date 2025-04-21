@@ -3,6 +3,7 @@ using IKEA.BLL.DTO_s;
 using IKEA.BLL.Services.DepartmentServices;
 using IKEA.DAL.Models.Departments;
 using IKEA.PL.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.DotNet.Scaffolding.Shared.Messaging;
@@ -11,6 +12,7 @@ using NuGet.Protocol.Plugins;
 
 namespace IKEA.PL.Controllers
 {
+    [Authorize]
     public class DepartmentController : Controller
     {
         #region Services

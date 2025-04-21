@@ -1,0 +1,31 @@
+﻿@model SignInViewModel
+@{
+	ViewData["Title"] = "Login";
+	Layout = "~/Views/Shared/_AuthLayout.cshtml";
+}
+
+<div class="main-agileinfo">
+	<div class="agileits-top">
+		<form action="Login" method="post">
+		
+			<input class="text email" type="email" asp-for="Email" placeholder="Email" required="">
+			<input class="text email"  asp-for="Password" placeholder="Password" required="">
+			
+
+			<div class="wthree-text">
+				<label class="anim">
+					<input asp-for="RememberMe" type="checkbox" class="checkbox" required="">
+					<span>RememberMe</span>
+				</label>
+				<div class="clear"> </div>
+			</div>
+			<input type="submit" value="Login">
+		</form>
+		<p>Don't have an Account? <a href="/Account/SignUp"> Create Account!</a></p>
+	</div>
+</div>
+<!-- copyright -->
+<div class="colorlibcopy-agile">
+	<p>© 2018 Colorlib Signup Form. All rights reserved | Design by <a href="https://colorlib.com/" target="_blank">Colorlib</a></p>
+</div>
+<!-- //copyright -->

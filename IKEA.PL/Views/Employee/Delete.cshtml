@@ -6,7 +6,7 @@
 
 <h1>Are You Sure To Delete @Model.Name Employee?</h1>
 <partial name="Partial/DeleteDetailsPartial" model="Model" />
-<form asp-action="Delete" asp-route-empId="@Model.Id" method="post">
+<form asp-action="Delete" asp-route-itemId="@Model.Id" method="post">
     <div asp-validation-summary="ModelOnly" class=" text-danger"></div>
     <div class="mt-4">
         <input type="submit" value="Delete" class="btn btn-danger" />
