@@ -1,0 +1,17 @@
+﻿@using IKEA.DAL.Models.Common
+@model EmployeeDetailsDto
+@{
+    ViewData["Title"] = "Employee Details";
+}
+<h1>Employee @Model.Name Details</h1>
+
+<br />
+<br />
+
+
+
+<!-- Bootstrap Tabs -->
+
+<partial name="Partial/DeleteDetailsPartial" model="Model" />
+
+

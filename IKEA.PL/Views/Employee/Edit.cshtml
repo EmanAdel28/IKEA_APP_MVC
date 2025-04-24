@@ -1,0 +1,26 @@
+﻿
+
+@model EmployeeVM
+@{
+    ViewData["Title"] = "Edit Employee";
+   
+}
+
+
+<input hidden asp-for="ImageName"/>
+<div class="row justify-content-center align-content-center flex-column">
+    <h1 class="col-6 my-4">Edit Employee </h1>
+    <form asp-action="Edit" method="post" class="row col-6" enctype="multipart/form-data">
+    <partial name="Partial/CreateEditPartial" model="@Model" />
+        <div class="mt-4">
+            <input type="submit" value="Update" class="btn btn-success" /> ||
+            <a asp-action="Index" class="btn btn-secondary">Back To List</a>
+        </div>
+    </form>
+</div>
+
+@section ValidateScripts
+   {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}
